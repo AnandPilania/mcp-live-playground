@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg0: #060810;
+    --bg1: #0b0f1a;
+    --bg2: #101520;
+    --bg3: #151c28;
+    --border: #1a2235;
+    --border2: #243048;
+    --cyan: #00d8ff;
+    --cyan2: #00a8cc;
+    --cyan-dim: rgba(0, 216, 255, 0.12);
+    --green: #00e887;
+    --amber: #f5a623;
+    --red: #ff4d6d;
+    --purple: #b48efe;
+    --txt: #bcc8d4;
+    --txt2: #7a8fa0;
+    --txt3: #4a5f70;
+    --bright: #e0ecf4;
+    --font-ui: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg0);
+    font-family: var(--font-ui);
+    color: var(--txt);
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2e4060;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: var(--font-ui);
+}
+
+input,
+select,
+textarea {
+    font-family: var(--font-ui);
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+    outline: none;
+}
+
+a {
+    color: inherit;
+}
+
+.fade-in {
+    animation: fadeIn 0.22s ease both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.pulse {
+    animation: pulse 1.8s ease infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* CodeMirror overrides */
+.cm-editor {
+    height: 100%;
+    background: var(--bg1) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 13px !important;
+}
+
+.cm-editor.cm-focused {
+    outline: none !important;
+}
+
+.cm-scroller {
+    overflow: auto !important;
+}
+
+.cm-gutters {
+    background: var(--bg1) !important;
+    border-right: 1px solid var(--border) !important;
+    color: var(--txt3) !important;
+}
+
+.cm-activeLineGutter {
+    background: rgba(0, 216, 255, 0.05) !important;
+}
+
+.cm-activeLine {
+    background: rgba(0, 216, 255, 0.04) !important;
+}
+
+.cm-cursor {
+    border-left-color: var(--cyan) !important;
+}
+
+.cm-selectionBackground {
+    background: rgba(0, 216, 255, 0.15) !important;
+}
+
+.cm-content {
+    padding: 8px 0 !important;
+}

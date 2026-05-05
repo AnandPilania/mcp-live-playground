@@ -1,0 +1,43 @@
+{
+    "name": "mcp-live-playground",
+    "version": "0.0.1",
+    "description": "Live IDE for building, testing, and debugging MCP (Model Context Protocol) servers — LLM agnostic",
+    "author": {
+        "name": "Anand Pilania",
+        "email": "pilaniaanand@gmail.com",
+        "url": "https://github.com/anandpilania"
+    },
+    "license": "MIT",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "lint": "eslint src --ext .ts,.tsx",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@codemirror/autocomplete": "^6.18.0",
+        "@codemirror/commands": "^6.7.0",
+        "@codemirror/lang-javascript": "^6.2.2",
+        "@codemirror/lang-python": "^6.1.6",
+        "@codemirror/language": "^6.10.3",
+        "@codemirror/state": "^6.4.1",
+        "@codemirror/theme-one-dark": "^6.1.2",
+        "@codemirror/view": "^6.35.0",
+        "@uiw/codemirror-theme-vscode": "^4.23.6",
+        "codemirror": "^6.0.1",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1"
+    },
+    "devDependencies": {
+        "@types/react": "^18.3.12",
+        "@types/react-dom": "^18.3.1",
+        "@typescript-eslint/eslint-plugin": "^8.0.0",
+        "@typescript-eslint/parser": "^8.0.0",
+        "@vitejs/plugin-react": "^4.3.3",
+        "eslint": "^9.0.0",
+        "typescript": "^5.6.3",
+        "vite": "^5.4.10"
+    }
+}
