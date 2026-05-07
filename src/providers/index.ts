@@ -25,8 +25,8 @@ export const DEFAULT_PROVIDERS: Record<LLMProviderType, Omit<LLMProvider, "apiKe
         type: "ollama",
         name: "Ollama (Local)",
         baseUrl: "http://localhost:11434/v1",
-        model: "gemma4:31b-cloud",
-        availableModels: ["gemma4:31b-cloud", "llama3.1", "mistral", "codellama", "qwen2.5-coder"],
+        model: "llama3.2",
+        availableModels: ["llama3.2", "llama3.1", "mistral", "codellama", "qwen2.5-coder"],
     },
     openrouter: {
         type: "openrouter",
@@ -45,8 +45,8 @@ export const DEFAULT_PROVIDERS: Record<LLMProviderType, Omit<LLMProvider, "apiKe
         type: "custom",
         name: "Custom (OpenAI-compatible)",
         baseUrl: "http://localhost:8080/v1",
-        model: "gemma4:31b-cloud",
-        availableModels: ["gemma4:31b-cloud"],
+        model: "local-model",
+        availableModels: ["local-model"],
     },
 };
 

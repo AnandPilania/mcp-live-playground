@@ -24,14 +24,20 @@
 
 ## Quick Start
 
+### Via npx (no install needed)
 ```bash
-git clone https://github.com/anandpilania/mcp-live-playground
-cd mcp-live-playground
-npm install
-npm run dev
+npx mcp-live-playground          # serve production build, opens browser
+npx mcp-live-playground --dev    # dev server with hot reload
+npx mcp-live-playground --port=3000 --no-open
 ```
 
-Open `http://localhost:5178`.
+### Clone & run locally
+```bash
+git clone https://github.com/your-username/mcp-live-playground
+cd mcp-live-playground
+npm install
+npm run dev      # http://localhost:3000
+```
 
 ---
 
@@ -59,6 +65,35 @@ Keys are stored **only in your browser's localStorage** and never sent anywhere 
 | File System         | TypeScript | Sandboxed file read/write/list with path traversal protection |
 | Python (FastMCP)    | Python     | Web search, sentiment analysis, image generation              |
 | Empty Server        | TypeScript | Blank starter                                                 |
+
+---
+
+## Python Testing — How It Works
+
+Python tools **cannot be executed in the browser** (no Python runtime). The playground handles this in two ways:
+
+| Feature                   | How it works                                                                                                |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Tool parsing**          | Regex extracts `@mcp.tool()` decorators, `def` signatures, `Field(...)` params, and docstrings in real-time |
+| **TEST button / Console** | Your chosen LLM **simulates** what the tool would return, based on code + param types + your inputs         |
+| **Real execution**        | Run `fastmcp dev server.py` and connect [MCP Inspector](https://github.com/modelcontextprotocol/inspector)  |
+
+A purple banner shows when you're in Python mode and links to the real-execution workflow.
+
+---
+
+## Save, Export & Import
+
+The toolbar provides four file actions:
+
+| Button       | What it does                                              |
+| ------------ | --------------------------------------------------------- |
+| **COPY**     | Copy current code to clipboard                            |
+| **EXPORT**   | Download as `.ts` or `.py` file (auto-detected from code) |
+| **SNAPSHOT** | Export full `.json` snapshot with code + template name    |
+| **IMPORT**   | Import a `.ts`, `.py`, `.js`, or `.json` snapshot         |
+
+Snapshots are portable — share with teammates and re-import to restore the exact state.
 
 ---
 

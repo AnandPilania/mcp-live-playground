@@ -6,9 +6,10 @@ interface ConsoleProps {
   tools: McpTool[];
   code: string;
   provider: LLMProvider;
+  lang?: "ts" | "py";
 }
 
-function buildSystemPrompt(tools: McpTool[], code: string): string {
+function buildSystemPrompt(tools: McpTool[], code: string, lang: "ts" | "py"): string {
   const defs = tools.map((t) => ({
     name: t.name,
     description: t.description,
@@ -22,29 +23,32 @@ function buildSystemPrompt(tools: McpTool[], code: string): string {
 
   return `You are an expert MCP (Model Context Protocol) tool tester, debugger, and documentation assistant.
 
-LIVE TOOL DEFINITIONS (parsed from the user's editor in real-time):
+SERVER LANGUAGE: ${lang === "py" ? "Python (FastMCP)" : "TypeScript (MCP SDK)"}
+
+${lang === "py" ? `IMPORTANT — PYTHON SIMULATION MODE:
+Python tools cannot be executed in the browser. You must SIMULATE realistic tool responses
+based on the tool's name, description, parameters, and the provided source code.
+Make simulations realistic and detailed — e.g. for a weather tool return actual-looking JSON,
+for a sentiment tool return a plausible sentiment score, etc.` : ""}
+
+LIVE TOOL DEFINITIONS (parsed from editor in real-time):
 ${JSON.stringify(defs, null, 2)}
 
 SOURCE CODE (first 3000 chars):
-\`\`\`
+\`\`\`${lang}
 ${code.slice(0, 3000)}
 \`\`\`
 
 Your capabilities:
-1. TEST tools: generate realistic inputs + simulate a proper MCP JSON response
-2. EDGE CASES: boundary values, invalid types, null/empty, very long strings, SQL injection attempts
-3. DEBUG: find bugs, security issues (path traversal, injection), missing error handling, type mismatches
-4. EXPLAIN: describe parameters, return types, and usage examples
-5. GENERATE: boilerplate for new tools based on description
+1. TEST: generate realistic inputs + simulate a proper MCP JSON response
+2. EDGE CASES: boundary values, invalid types, null/empty, very long strings, injection attempts
+3. DEBUG: bugs, security issues (path traversal, injection), missing error handling, type issues
+4. EXPLAIN: parameters, return types, usage examples
+5. GENERATE: boilerplate for new tools
 
-Always be concrete, technical, and developer-focused.
-Use markdown code blocks (with language) for JSON, TypeScript, Python output.
-For simulated tool responses, always use this exact MCP format:
+Always use this exact MCP response format in code blocks:
 \`\`\`json
-{
-  "content": [{ "type": "text", "text": "..." }],
-  "isError": false
-}
+{"content": [{"type": "text", "text": "..."}], "isError": false}
 \`\`\``;
 }
 
@@ -98,14 +102,15 @@ const QUICK_ACTIONS = [
   "Generate TypeScript types",
 ];
 
-export default function Console({ tools, code, provider }: ConsoleProps) {
+export default function Console({ tools, code, provider, lang = "ts" }: ConsoleProps) {
   const idPrefix = useId();
   const [messages, setMessages] = useState<ConsoleMessage[]>([
     {
       id: `${idPrefix}-0`,
       role: "assistant",
-      content:
-        "👋 **MCP Test Console** ready.\n\nI'll help you test tools, generate edge cases, and debug your server code. I'm aware of your live tool definitions.\n\nTry asking: `test get_weather with city='Tokyo'` or click a quick action below.",
+      content: lang === "py"
+        ? "👋 **MCP Test Console** — Python / FastMCP mode.\n\nI've parsed your tool definitions. Since Python tools run server-side, I'll **simulate** realistic responses based on your code and parameter types.\n\nTry: `test search_web with query='OpenAI news'` or `generate edge cases for analyze_sentiment`"
+        : "👋 **MCP Test Console** ready.\n\nI understand your live tool definitions. Try: `test get_weather with city='Tokyo'` or click a quick action below.",
       timestamp: Date.now(),
     },
   ]);
@@ -142,7 +147,7 @@ export default function Console({ tools, code, provider }: ConsoleProps) {
       const response = await sendMessage(
         provider,
         [...history, { role: "user", content: q }],
-        buildSystemPrompt(tools, code)
+        buildSystemPrompt(tools, code, lang)
       );
 
       setMessages((prev) => [

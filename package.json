@@ -1,20 +1,35 @@
 {
     "name": "mcp-live-playground",
-    "version": "0.0.1",
-    "description": "Live IDE for building, testing, and debugging MCP (Model Context Protocol) servers — LLM agnostic",
+    "version": "0.0.2",
+    "description": "Live IDE for building, testing, and debugging MCP servers — LLM agnostic",
     "author": {
         "name": "Anand Pilania",
         "email": "pilaniaanand@gmail.com",
-        "url": "https://github.com/anandpilania"
+        "url": "https://github.com/AnandPilania"
     },
     "license": "MIT",
     "type": "module",
+    "bin": {
+        "mcp-live-playground": "./bin/mcp-live.js",
+        "mcp-live": "./bin/mcp-live.js"
+    },
+    "files": [
+        "bin",
+        "dist",
+        "src",
+        "index.html",
+        "vite.config.ts",
+        "tsconfig.json",
+        "public"
+    ],
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
+        "start": "node bin/mcp-live.js",
         "lint": "eslint src --ext .ts,.tsx",
-        "typecheck": "tsc --noEmit"
+        "typecheck": "tsc --noEmit",
+        "prepublishOnly": "npm run build"
     },
     "dependencies": {
         "@codemirror/autocomplete": "^6.18.0",

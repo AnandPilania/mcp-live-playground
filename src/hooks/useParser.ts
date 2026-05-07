@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import { parseServer } from "@/lib/parser";
+import { parseServer, detectLanguage } from "@/lib/parser";
 import type { ParsedServer } from "@/types";
+
+export { detectLanguage };
 
 function useDebounce<T>(value: T, delay: number): T {
     const [debounced, setDebounced] = useState<T>(value);

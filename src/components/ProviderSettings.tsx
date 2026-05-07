@@ -21,14 +21,19 @@ export default function ProviderSettings({ provider, onUpdate, onSwitchType, onC
   const [localKey, setLocalKey] = useState(provider.apiKey || "");
   const [localUrl, setLocalUrl] = useState(provider.baseUrl);
   const [localModel, setLocalModel] = useState(provider.model);
-  const [localCustomModel, setLocalCustomModel] = useState("");
+  // If current model isn't in the presets list, pre-fill custom field
+  const isPreset = DEFAULT_PROVIDERS[provider.type].availableModels.includes(provider.model);
+  const [localCustomModel, setLocalCustomModel] = useState(!isPreset ? provider.model : "");
   const [saved, setSaved] = useState(false);
+
+  // Custom model input always wins when non-empty
+  const effectiveModel = localCustomModel.trim() || localModel;
 
   const save = () => {
     onUpdate({
       apiKey: localKey || undefined,
       baseUrl: localUrl,
-      model: localModel || localCustomModel,
+      model: effectiveModel,
     });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -101,7 +106,7 @@ export default function ProviderSettings({ provider, onUpdate, onSwitchType, onC
               type="password"
               value={localKey}
               onChange={(e) => setLocalKey(e.target.value)}
-              placeholder={provider.type === "ollama" ? "Not required" : "sk-…"}
+              placeholder={(provider.type as LLMProviderType) === "ollama" ? "Not required" : "sk-…"}
               style={{
                 width: "100%", background: "var(--bg2)",
                 border: "1px solid var(--border)", borderRadius: 5,
@@ -158,21 +163,23 @@ export default function ProviderSettings({ provider, onUpdate, onSwitchType, onC
               <option key={m} value={m}>{m}</option>
             ))}
           </select>
-          {(provider.type === "ollama" || provider.type === "custom") && (
-            <input
-              value={localCustomModel}
-              onChange={(e) => setLocalCustomModel(e.target.value)}
-              placeholder="Or enter a custom model name…"
-              style={{
-                width: "100%", background: "var(--bg2)",
-                border: "1px solid var(--border)", borderRadius: 5,
-                padding: "8px 10px", fontSize: 12, color: "var(--bright)",
-                fontFamily: "var(--font-mono)", marginTop: 6,
-                transition: "border-color .15s",
-              }}
-              onFocus={(e) => (e.target.style.borderColor = "var(--cyan2)")}
-              onBlur={(e)  => (e.target.style.borderColor = "var(--border)")}
-            />
+          <input
+            value={localCustomModel}
+            onChange={(e) => setLocalCustomModel(e.target.value)}
+            placeholder="Or type a custom model name (overrides selection above)…"
+            style={{
+              width: "100%", background: "var(--bg2)",
+              border: `1px solid ${localCustomModel.trim() ? "var(--cyan2)" : "var(--border)"}`,
+              borderRadius: 5, padding: "8px 10px", fontSize: 12, color: "var(--bright)",
+              fontFamily: "var(--font-mono)", marginTop: 6, transition: "border-color .15s",
+            }}
+            onFocus={(e) => (e.target.style.borderColor = "var(--cyan2)")}
+            onBlur={(e)  => (e.target.style.borderColor = localCustomModel.trim() ? "var(--cyan2)" : "var(--border)")}
+          />
+          {localCustomModel.trim() && (
+            <div style={{ fontSize: 10, color: "var(--cyan)", marginTop: 4, fontFamily: "var(--font-mono)" }}>
+              ✓ Will use: <strong>{localCustomModel.trim()}</strong>
+            </div>
           )}
         </div>
 
