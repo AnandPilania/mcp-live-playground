@@ -33,7 +33,7 @@ npx mcp-live-playground --port=3000 --no-open
 
 ### Clone & run locally
 ```bash
-git clone https://github.com/your-username/mcp-live-playground
+git clone https://github.com/anandpilania/mcp-live-playground
 cd mcp-live-playground
 npm install
 npm run dev      # http://localhost:3000
