@@ -15,7 +15,7 @@ import { z } from "zod";
 
 const server = new McpServer({
   name: "utility-server",
-  version: "1.0.0",
+  version: "0.0.4",
 });
 
 // Fetch current weather for any city
@@ -90,7 +90,7 @@ server.listen();
 import { z } from "zod";
 import { Pool } from "pg";
 
-const server = new McpServer({ name: "db-server", version: "1.0.0" });
+const server = new McpServer({ name: "db-server", version: "0.0.4" });
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 // Execute read-only SQL queries safely
@@ -166,7 +166,7 @@ import { z } from "zod";
 import * as fs from "fs/promises";
 import * as path from "path";
 
-const server = new McpServer({ name: "fs-server", version: "1.0.0" });
+const server = new McpServer({ name: "fs-server", version: "0.0.4" });
 const WORKSPACE_ROOT = process.env.FS_ROOT || process.cwd();
 
 function resolveSafe(p: string): string {
@@ -249,7 +249,7 @@ from pydantic import Field
 from typing import Optional, Literal
 import httpx
 
-mcp = FastMCP("python-server", version="1.0.0")
+mcp = FastMCP("python-server", version="0.0.4")
 
 
 @mcp.tool()
@@ -330,7 +330,7 @@ import { z } from "zod";
 
 const server = new McpServer({
   name: "my-server",
-  version: "1.0.0",
+  version: "0.0.4",
 });
 
 // Add your first tool here

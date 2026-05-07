@@ -236,7 +236,7 @@ export function generateJsonSchema(parsed: ParsedServer): object {
     return {
         $schema: "https://json-schema.org/draft/2020-12/schema",
         title: parsed.name || "MCP Server",
-        version: parsed.version || "1.0.0",
+        version: parsed.version || "0.0.4",
         tools: parsed.tools.map((t) => ({
             name: t.name, description: t.description,
             inputSchema: {

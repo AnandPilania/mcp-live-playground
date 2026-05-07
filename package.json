@@ -1,6 +1,6 @@
 {
     "name": "mcp-live-playground",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Live IDE for building, testing, and debugging MCP servers — LLM agnostic",
     "author": {
         "name": "Anand Pilania",
